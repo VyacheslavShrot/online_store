@@ -1,0 +1,13 @@
+{% for item in cart_items %}
+    <strong style="font-size: 23px">PRODUCT INFORMATION {{ item.product.id }}</strong><br>
+    <strong>{{ item.product }}</strong><br>
+{% endfor %}<br>
+<strong style="font-size: 23px">BUYER INFORMATION</strong><br><br>
+<strong>NAME: {{ name }}</strong><br>
+<strong>SURNAME: {{ surname }}</strong><br>
+<strong>EMAIL: {{ email }}</strong><br>
+<strong>PHONE NUMBER: {{ phone_number }}</strong><br>
+<strong>CITY: {{ city }}</strong><br>
+<strong>DESCRIPTION: {{ description }}</strong><br>
+<strong>DEPARTMENT: {{ department }}</strong><br><br>
+<strong style="font-size: 25px">TOTAL: {{ total }} $</strong>

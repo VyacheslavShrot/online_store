@@ -1,0 +1,104 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+    <link href="{% static 'css/font.css' %}" rel="stylesheet">
+    <link href="{% static 'css/item_added_button.css/' %}" rel="stylesheet">
+    <div style="text-align: center">
+        <h1 style="margin-top: 100px; font-weight: bold"><strong style="font-size: 50px">CART</strong></h1>
+    </div>
+    {% if cart_items %}
+        <table class=""
+               style="border: none; margin-top: 50px; border-radius: 0; color: black; text-align: left; margin-left: 200px; font-size: 20px">
+            <thead>
+            <tr>
+                <th scope="col" style="border: none; width: 600px"><strong>PRODUCT</strong></th>
+                <th scope="col" style="border: none; width: 220px"><strong>PRICE</strong></th>
+                <th scope="col" style="border: none; width: 220px"><strong>SIZE</strong></th>
+                <th scope="col" style="border: none;"><strong>QUANTITY</strong></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cart_item in cart_items %}
+                <tr>
+                    <th style="border: none">
+                        <a href="{% url 'store:remove_from_cart' cart_item.product.id %}"
+                           style="text-decoration: none; color: black;">
+                            <svg style="margin-bottom: 72px; margin-right: 15px" class="svg-icon icon-close "
+                                 xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                 viewBox="0 0 20 20" fill="none">
+
+                                <title>Close Icon</title>
+
+                                <path d="M15 5L10 10L5 15" stroke="currentColor" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M5 5L10 10L15 15" stroke="currentColor" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </a>
+                        <a href="{% url 'store:product' cart_item.product.id %}"><img
+                                width="120px" height="120px" style="margin-top: 45px"
+                                src="{{ cart_item.product.photo1.url }}"
+                                alt="..."></a>
+                        <strong style="margin-left: 25px">{{ cart_item.product.title }}</strong>
+
+                    </th>
+                    <th style="border: none;"><strong>{{ cart_item.product.price }} $</strong></th>
+                    <th style="border: none;"><strong>{{ cart_item.product.size }}</strong></th>
+                    <th style="border: none;"><strong>{{ cart_item.quantity }}</strong></th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div style="margin-top: 50px; margin-left: 205px">
+            <strong style="color: darkred; font-size: 18px">Доставка Новою поштою</strong>
+            <img style="margin-left: 8px"
+                 height="30px"
+                 width="30px"
+                 src="{% static 'img/posta.png' %}"
+                 alt="">
+        </div>
+        <div style="font-weight: bold; font-size: 25px; text-align: center; margin-top: 15px; margin-bottom: 100px">
+            <strong>TOTAL {{ total }} $</strong><br>
+            <a href="{% url 'order' %}">
+                <button class="add-button"
+                        style="width: 200px; margin-top: 75px;"><strong style="font-size: 23px">CHECKOUT</strong>
+                </button>
+            </a>
+        </div>
+    {% else %}
+        <div style="text-align: center; margin-top: 50px; margin-bottom: 100px; font-weight: bold">
+            <h2><strong>Your cart is empty</strong></h2>
+        </div>
+        <section class="py-5 text-center container"
+                 style="margin-top: 50px; background-image: url('{% static 'img/main_img.jpeg/' %}'); background-size: cover;">
+            <div class="row py-lg-5">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <a href="{% url 'store:store' %}" class="cta" style="text-decoration: none">
+                        <span class="hover-underline-animation add-button"
+                              style="text-decoration: none; color: white"><strong
+                                style="text-decoration: none; color: white; font-size: 50px">SHOP NOW </strong></span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    <section class="py-5 text-center container"
+             style="margin-top: 20px; background-image: url('{% static 'img/second_img.jpeg/' %}'); background-size: cover;">
+        {% for category in categories %}
+            <a href="{% url 'store:category' category.id %}" class="cta" style="text-decoration: none">
+                        <span class="hover-underline-animation add-button"
+                              style="text-decoration: none; color: white; margin-top: 55px"><strong
+                                style="text-decoration: none; color: white; font-size: 50px">{{ category.title|upper }}</strong></span><br>
+            </a>
+        {% endfor %}
+    </section>
+    <section class="py-5 text-center container"
+             style="margin-top: 20px; background-image: url('{% static 'img/third_img.jpeg/' %}'); background-size: cover;">
+        <a href="{% url 'store:archive' %}" class="cta" style="text-decoration: none">
+                        <span class="hover-underline-animation add-button"
+                              style="text-decoration: none; color: white;"><strong
+                                style="text-decoration: none; color: white; font-size: 50px">ARCHIVE</strong></span><br>
+        </a>
+    </section>
+{% endblock %}

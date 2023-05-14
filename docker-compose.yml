@@ -1,0 +1,31 @@
+version: "3"
+
+# -p 8010 == OUTSIDE PARAM
+
+#docker run --rm -it -p 8010:8000 -v /Users/letsgooo/PycharmProjects/online_store_2023/src/:/store/src --name store_app store_image bash ./commands/run_server.sh
+
+#docker exec -it store_app bash
+
+services:
+  backend:
+    build: ./
+    container_name: online_store_container
+    working_dir: /store
+    ports:
+      - 8010:8000
+    command: sh -c "python /src/manage.py migrate && python /src/manage.py runserver 0:8000"
+    volumes:
+      - ./src:/src
+      - ./commands:/commands
+      - ./src/hidden_settings.json:/src/hidden_settings.json
+  postgres:
+    image: postgres:12
+    ports:
+      - 5432:5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+volumes:
+  pg_data: { }

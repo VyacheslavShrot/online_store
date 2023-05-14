@@ -1,0 +1,52 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+    <link href="{% static 'css/font.css' %}" rel="stylesheet">
+    <link href="{% static 'css/item_added_button.css/' %}" rel="stylesheet">
+    <link href="{% static 'css/form.css/' %}" rel="stylesheet">
+    <style>
+        .form-group input:focus {
+            border-color: darkred;
+            outline: none;
+        }
+    </style>
+    <div style="text-align: center; margin-top: 85px; margin-bottom: 70px">
+{#        <div style="position: absolute; margin-left: 50px; margin-top: 125px">#}
+{#            {% for item in cart_items %}#}
+{#                    <img style="margin-top: 20px" width="115px" height="115px" src="{{ item.product.photo1.url }}"#}
+{#                         alt="">#}
+{#                    <strong style="margin-left: 20px">{{ item.product.title }}</strong><br>#}
+{#                    <strong style="margin-top: 25px; margin-left: 65px; color: #9b9b9b">{{ item.product.price }}#}
+{#                        $</strong>#}
+{#                    <br>#}
+{#            {% endfor %}#}
+{#        </div>#}
+        <strong style="font-size: 50px; color: darkred">FORM</strong>
+        <div style="text-align: center;"><strong style="font-size: 26px; color: #9b9b9b">DELIVERY</strong></div>
+        <div style="text-align: center;"><strong style="font-size: 19px; color: #9b9b9b">PAYMENT</strong></div>
+        {% if messages %}
+            {% for message in messages %}
+                <strong style="color: darkred;" {% if message.tags %}
+                        class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+            {% endfor %}
+        {% endif %}
+        <form style="margin-top: 40px" method="post" action="{% url 'order' %}">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <strong style="font-size: 19px">{{ field.label_tag }}</strong>
+                    <strong>{{ field }}</strong>
+                    {% if field.errors %}
+                        <div class="alert alert-danger" role="alert" style="margin-top: 5px">
+                            {% for error in field.errors %}
+                                <li><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-danger"><strong>SUBMIT</strong></button>
+        </form>
+    </div>
+{% endblock %}

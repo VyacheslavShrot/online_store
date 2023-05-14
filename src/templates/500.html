@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+    <link href="{% static 'css/font.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main_button.css' %}" rel="stylesheet">
+    <section class="py-5 text-center container" style="margin-top: 50px">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw" style="color: darkred"><strong>Something went wrong</strong></h1><br><br>
+                <a href="/" class="cta" style="text-decoration: none">
+                    <span class="hover-underline-animation"><strong>Homepage</strong></span>
+                    <svg viewBox="0 0 46 16" height="10" width="30" xmlns="http://www.w3.org/2000/svg"
+                         id="arrow-horizontal">
+                        <path transform="translate(30)"
+                              d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+                              data-name="Path 10" id="Path_10"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+    <img src="{% static 'img/index.jpg.webp' %}"
+         class="img-fluid"
+         width="420"
+         alt=""
+         style="margin-left: 615px; ">
+{% endblock %}
