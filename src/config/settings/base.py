@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-import json
 import os
 from datetime import timedelta
 from pathlib import Path
@@ -26,6 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
     "rest_framework",
     "djoser",
     "drf_yasg",
@@ -146,14 +146,10 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_FILE_PATH = ...
 SESSION_SAVE_EVERY_REQUEST = True
 
-hidden_settings_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "hidden_settings.json")
-
-with open(hidden_settings_path, "r") as f:
-    hidden_settings = json.load(f)
 """
     For PayPal
 """
-PAYPAL_RECEIVER_EMAIL = hidden_settings["EMAIL_HOST_USER"]
+PAYPAL_RECEIVER_EMAIL = os.environ.get("EMAIL_HOST_USER")
 PAYPAL_TEST = True
 
 """
@@ -162,7 +158,7 @@ PAYPAL_TEST = True
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = hidden_settings["EMAIL_HOST_USER"]
-EMAIL_HOST_PASSWORD = hidden_settings["EMAIL_HOST_PASSWORD"]
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 587
 EMAIL_FAIL_SILENTLY = True

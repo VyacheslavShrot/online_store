@@ -3,7 +3,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-src/hidden_settings.json
 .idea/
 # C extensions
 *.so

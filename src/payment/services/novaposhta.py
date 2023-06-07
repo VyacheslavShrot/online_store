@@ -1,10 +1,12 @@
+import os
+
 import requests
 
 
 def get_branches(city):
     url = "https://api.novaposhta.ua/v2.0/json/"
     params = {
-        "apiKey": "e4e5c9f36feab441af0a7538ffe63b32",
+        "apiKey": os.environ.get("NOVA_POSHTA_KEY"),
         "modelName": "AddressGeneral",
         "calledMethod": "getWarehouses",
         "methodProperties": {"CityName": city},
@@ -21,7 +23,7 @@ def get_branches(city):
 def get_cities():
     url = "https://api.novaposhta.ua/v2.0/json/"
     params = {
-        "apiKey": "e4e5c9f36feab441af0a7538ffe63b32",
+        "apiKey": os.environ.get("NOVA_POSHTA_KEY"),
         "modelName": "Address",
         "calledMethod": "getCities",
         "methodProperties": {},
