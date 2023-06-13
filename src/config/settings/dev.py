@@ -1,5 +1,3 @@
-import os
-
 from dotenv import load_dotenv
 
 from config.settings.base import *  # noqa
@@ -9,7 +7,7 @@ DEBUG = True
 load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = "django-insecure-(zkzx^ewo7=6^nd)qxv11%4s2nf=h1!873%i^hdfn^@=f(0775"
 
 ALLOWED_HOSTS = []
 
