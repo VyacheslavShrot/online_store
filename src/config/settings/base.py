@@ -105,7 +105,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 
-STATICFILES_DIRS = (Path(__file__).resolve().parent.parent.parent / "static",)
+# STATICFILES_DIRS = (Path(__file__).resolve().parent.parent.parent / "static",)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

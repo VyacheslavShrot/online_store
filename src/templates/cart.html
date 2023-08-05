@@ -2,8 +2,8 @@
 {% load static %}
 
 {% block content %}
-    <link href="{% static 'css/font.css' %}" rel="stylesheet">
-    <link href="{% static 'css/item_added_button.css/' %}" rel="stylesheet">
+    <link href="/static/css/font.css" rel="stylesheet">
+    <link href="/static/css/item_added_button.css" rel="stylesheet">
     <div style="text-align: center">
         <h1 style="margin-top: 100px; font-weight: bold"><strong style="font-size: 50px">CART</strong></h1>
     </div>
@@ -55,7 +55,7 @@
             <img style="margin-left: 8px"
                  height="30px"
                  width="30px"
-                 src="{% static 'img/posta.png' %}"
+                 src="/static/img/posta.png"
                  alt="">
         </div>
         <div style="font-weight: bold; font-size: 25px; text-align: center; margin-top: 15px; margin-bottom: 100px">
@@ -68,10 +68,10 @@
         </div>
     {% else %}
         <div style="text-align: center; margin-top: 50px; margin-bottom: 100px; font-weight: bold">
-            <h2><strong>Your cart is empty</strong></h2>
+            <h2><strong style="color: darkred; font-size: 40px">Your cart is empty</strong></h2>
         </div>
         <section class="py-5 text-center container"
-                 style="margin-top: 50px; background-image: url('{% static 'img/main_img.jpeg/' %}'); background-size: cover;">
+                 style="margin-top: 50px; background-image: url('/static/img/benedict_img.jpg'); background-size: cover;">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
                     <a href="{% url 'store:store' %}" class="cta" style="text-decoration: none">
@@ -84,7 +84,7 @@
         </section>
     {% endif %}
     <section class="py-5 text-center container"
-             style="margin-top: 20px; background-image: url('{% static 'img/second_img.jpeg/' %}'); background-size: cover;">
+             style="margin-top: 20px; background-image: url('/static/img/main_img.jpeg'); background-size: cover;">
         {% for category in categories %}
             <a href="{% url 'store:category' category.id %}" class="cta" style="text-decoration: none">
                         <span class="hover-underline-animation add-button"
@@ -94,7 +94,7 @@
         {% endfor %}
     </section>
     <section class="py-5 text-center container"
-             style="margin-top: 20px; background-image: url('{% static 'img/third_img.jpeg/' %}'); background-size: cover;">
+             style="margin-top: 20px; background-image: url('/static/img/benedict_image.jpg'); background-size: cover;">
         <a href="{% url 'store:archive' %}" class="cta" style="text-decoration: none">
                         <span class="hover-underline-animation add-button"
                               style="text-decoration: none; color: white;"><strong

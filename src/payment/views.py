@@ -10,6 +10,7 @@ from paypal.standard.ipn.signals import valid_ipn_received
 
 from payment.forms import DepartmentForm, OrderForm
 from payment.services.emails import send_registration_email
+from store.models import Product
 from store.views import get_cart_items
 
 
@@ -88,7 +89,7 @@ class Payment(TemplateView, FormView):
         order_department = request.session.get("order_department")
         cart_items, total = get_cart_items(request)
 
-        item_name = "Order from Racksondrip"
+        item_name = "Order from sle3pinghood"
         paypal_dict = {
             "business": "slavikshrot@gmail.com",
             "amount": total,
@@ -131,7 +132,7 @@ class Payment(TemplateView, FormView):
         if ipn_obj.get("txn_type") == "web_accept" and ipn_obj.get("payment_status") == "Completed":
             # Done payment
             cart_items, total = get_cart_items(ipn_obj.get("invoice"))
-            # item_name = "Order from Racksondrip"
+            # item_name = "Order from sle3pinghood"
             send_registration_email(str(total), str(cart_items))
 
         return HttpResponse(status=200)
@@ -143,5 +144,5 @@ def payment_notification(sender, **kwargs):
     if ipn_obj.get("txn_type") == "web_accept" and ipn_obj.get("payment_status") == "Completed":
         # Done payment
         cart_items, total = get_cart_items(ipn_obj.get("invoice"))
-        # item_name = "Order from Racksondrip"
+        # item_name = "Order from sle3pinghood"
         send_registration_email(str(total), str(cart_items))

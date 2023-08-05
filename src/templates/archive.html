@@ -2,9 +2,9 @@
 {% load static %}
 
 {% block content %}
-    <link href="{% static 'css/font.css' %}" rel="stylesheet">
-    <link href="{% static 'css/card.css/' %}" rel="stylesheet">
-    <link href="{% static 'css/item_added_button.css' %}" rel="stylesheet">
+    <link href="/static/css/font.css" rel="stylesheet">
+    <link href="/static/css/card.css" rel="stylesheet">
+    <link href="/static/css/item_added_button.css" rel="stylesheet">
     <div class="d-flex flex-column flex-shrink-0 p-3"
          style="width: 190px; position: fixed; margin-top: 100px">
         <ul class="nav nav-pills flex-column mb-auto">
@@ -42,12 +42,12 @@
             <div style="text-align: center; margin-bottom: 130px">
                 <strong style="font-size: 35px">Archive</strong>
             </div>
-        {% if not products %}
+        {% if not archives %}
                 <div style="text-align: center; position: center; margin-top: 100px">
                     <strong style="font-size: 30px; color: darkred">There are no products in Archive yet</strong>
                 </div>
                 <section class="py-5 text-center container"
-                         style="margin-top: 50px; background-image: url('{% static 'img/main_img.jpeg/' %}'); background-size: cover;">
+                         style="margin-top: 50px; background-image: url('/static/img/benedict_img.jpg'); background-size: cover;">
                     <div class="row py-lg-5">
                         <div class="col-lg-6 col-md-8 mx-auto">
                             <a href="{% url 'store:store' %}" class="cta" style="text-decoration: none">

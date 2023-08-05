@@ -141,6 +141,7 @@ class ProductView(TemplateView):
 
     def get(self, request, id):
         categories = Category.objects.all()
+        product_category = get_object_or_404(Category.objects.all(), id=id)
         products = get_object_or_404(Product.objects.all(), id=id)
         product_like = Product.objects.filter(category=products.category)[:3]
         cart_items, total = get_cart_items(request)
@@ -152,6 +153,7 @@ class ProductView(TemplateView):
                 "products": products,
                 "product_like": product_like,
                 "categories": categories,
+                "product_category": product_category,
                 "cart_items": cart_items,
                 "total": total,
             },

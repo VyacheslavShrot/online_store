@@ -1,15 +1,20 @@
+import mongoengine
 from dotenv import load_dotenv
 
-from config.settings.base import *  # noqa
+from config.settings.base import *
 
 DEBUG = True
 
 load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-(zkzx^ewo7=6^nd)qxv11%4s2nf=h1!873%i^hdfn^@=f(0775"
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 ALLOWED_HOSTS = []
+
+mongoengine.connect(
+    host=os.environ.get("MONGO_ENGINE")
+)
 
 if os.environ.get("GITHUB_WORKFLOW"):
     DATABASES = {
@@ -46,4 +51,12 @@ else:
         }
     }
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = "src/static"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = "src/media"
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]

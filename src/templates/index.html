@@ -10,9 +10,9 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.111.3">
-    <title>racksondrip</title>
-    <link rel="icon" href="{% static 'img/index.jpg.webp/' %}" type="image/x-icon">
-    <link href="{% static 'css/font.css' %}" rel="stylesheet">
+    <title>sle3pinghood</title>
+    <link rel="icon" href="/static/img/benedict_img.jpg" type="image/x-icon">
+    <link href="/static/css/font.css" rel="stylesheet">
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
 
@@ -121,7 +121,7 @@
                 <div class="col-sm-4 offset-md-1 py-4">
                     <h4 style="font-weight: bold"><strong>Contact</strong></h4>
                     <ul class="list-unstyled">
-                        <li><a style="text-decoration: none" href="https://www.instagram.com/sle3pinhood/"
+                        <li><a style="text-decoration: none" href="https://www.instagram.com/sle3pinghood/"
                                class="text-white">
                             <svg style="color: darkred" class="svg-icon icon-instagram "
                                  xmlns="http://www.w3.org/2000/svg" width="30"
@@ -176,7 +176,7 @@
                 </svg>
             </a>
             <a href="/" class="navbar-brand d-flex align-items-center" style="font-weight: bold">
-                <strong style="color: white; margin-left: 50px;">racksondrip</strong>
+                <strong style="color: white; margin-left: 50px;">sle3pinghood</strong>
             </a>
             <button style="color: darkred; background-color: black" class="navbar-toggler" type="button"
                     data-bs-toggle="collapse" data-bs-target="#navbarHeader"
@@ -189,9 +189,10 @@
 
 <main>
     {% block content %}
-        <link href="{% static 'css/item_added_button.css' %}" rel="stylesheet">
+        <link href="/static/css/item_added_button.css" rel="stylesheet">
         <section class="py-5 text-center container"
-                 style="margin-top: 50px; background-image: url('{% static 'img/main_img.jpeg/' %}'); background-size: cover;">
+                 style="margin-top: 20px; background-image: url('/static/img/benedict_img.jpg'); background-size: cover;">
+
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
                     <a href="{% url 'store:store' %}" class="cta" style="text-decoration: none">
@@ -203,7 +204,7 @@
             </div>
         </section>
         <section class="py-5 text-center container"
-                 style="margin-top: 20px; background-image: url('{% static 'img/second_img.jpeg/' %}'); background-size: cover;">
+                 style="margin-top: 20px; background-image: url('/static/img/main_img.jpeg'); background-size: cover;">
             {% for category in categories %}
                 <a href="{% url 'store:category' category.id %}" class="cta" style="text-decoration: none">
                         <span class="hover-underline-animation add-button"
@@ -213,7 +214,7 @@
             {% endfor %}
         </section>
         <section class="py-5 text-center container"
-                 style="margin-top: 20px; background-image: url('{% static 'img/third_img.jpeg/' %}'); background-size: cover;">
+                 style="margin-top: 20px; background-image: url('/static/img/benedict_image.jpg'); background-size: cover;">
             <a href="{% url 'store:archive' %}" class="cta" style="text-decoration: none">
                         <span class="hover-underline-animation add-button"
                               style="text-decoration: none; color: white;"><strong
@@ -226,15 +227,17 @@
 <footer class=" text-body-secondary py-5">
     <div class="container">
         <p class="float-end mb-1">
+            <a style="text-decoration: none; color: darkred"
+               href="{% url 'api:swagger_docs' %}"><strong>API</strong></a><br><br>
             <a style="text-decoration: none; color: darkred" href="#"><strong>Back to top</strong></a><br>
             <a style="text-decoration: none; color: darkred" href="/"><strong>Homepage</strong></a>
         </p>
         <p style="font-size: 0.8em" class="mb-1"><strong>© 2023</strong></p>
-        <p class="mb-0" style="font-weight: bold;"><strong>racksondrip</strong>
+        <p class="mb-0" style="font-weight: bold;"><strong>sle3pinghood</strong>
         <div style="margin-top: 15px"
              class="paypal-button-row  paypal-button-number-0 paypal-button-layout-vertical paypal-button-shape-rect paypal-button-number-multiple paypal-button-env-sandbox paypal-button-color-gold paypal-button-text-color-black paypal-logo-color-blue   ">
             <div style="position: absolute; margin-top: 50px">
-                <img height="50px" width="50px" src="{% static 'img/posta.png' %}" alt="">
+                <img height="50px" width="50px" src="/static/img/posta.png" alt="">
             </div>
             <div role="link" data-button="" data-funding-source="paypal"
                  class="paypal-button  paypal-button-number-0 paypal-button-layout-vertical paypal-button-shape-rect paypal-button-number-multiple paypal-button-env-sandbox paypal-button-color-gold paypal-button-text-color-black paypal-logo-color-blue "

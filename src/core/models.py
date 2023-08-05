@@ -13,9 +13,9 @@ class ImageModel(models.Model):
     class Meta:
         abstract = True
 
-    photo1 = models.ImageField(upload_to="static/img/%(class)s", blank=True, null=False)
-    photo2 = models.ImageField(upload_to="static/img/%(class)s", blank=True, null=True)
-    photo3 = models.ImageField(upload_to="static/img/%(class)s", blank=True, null=True)
-    photo4 = models.ImageField(upload_to="static/img/%(class)s", blank=True, null=True)
-    photo5 = models.ImageField(upload_to="static/img/%(class)s", blank=True, null=True)
-    photo6 = models.ImageField(upload_to="static/img/%(class)s", blank=True, null=True)
+    photo1 = models.ImageField(upload_to="images/", blank=True, null=False)
+    photo2 = models.ImageField(upload_to="images/", blank=True, null=True)
+    photo3 = models.ImageField(upload_to="images/", blank=True, null=True)
+    photo4 = models.ImageField(upload_to="images/", blank=True, null=True)
+    photo5 = models.ImageField(upload_to="images/", blank=True, null=True)
+    photo6 = models.ImageField(upload_to="images/", blank=True, null=True)

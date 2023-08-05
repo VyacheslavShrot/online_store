@@ -10,7 +10,6 @@ select {
   background-image: none;
 }
 
-/* Добавляем псевдоэлемент для отображения собственной стрелки */
 select::after {
   content: "";
   position: absolute;

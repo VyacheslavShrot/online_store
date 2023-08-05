@@ -1,29 +1,40 @@
 version: "3"
 
-# -p 8010 == OUTSIDE PARAM
-
-#docker run --rm -it -p 8010:8000 -v /Users/letsgooo/PycharmProjects/online_store_2023/src/:/store/src --name store_app store_image bash ./commands/run_server.sh
-
-#docker exec -it store_app bash
-
 services:
   backend:
     build: ./
-    container_name: online_store_container
+    container_name: backend
     working_dir: /store
     ports:
       - 8010:8000
-    command: sh -c "python /src/manage.py migrate && python /src/manage.py runserver 0:8000"
+    command: sh -c "python /src/manage.py makemigrations && python /src/manage.py migrate && python /src/manage.py collectstatic --noinput && python /src/manage.py runserver 0:8000"
     volumes:
       - ./src:/src
-      - ./commands:/commands
+      - static_content:/store/src/static
+      - media_content:/store/src/media
     env_file:
       - .env
     depends_on:
       - postgres
 
+  nginx:
+    image: nginx:1.19
+    container_name: nginx_ws
+    volumes:
+      - ./src/static:/store/src/static
+      - ./src/media:/store/src/media
+      - ./nginx:/etc/nginx/conf.d
+    ports:
+      - 80:80
+      - 443:443
+    env_file:
+      - .env
+    depends_on:
+      - backend
+
   postgres:
     image: postgres:12
+    container_name: postgres_db
     ports:
       - 5433:5433
     volumes:
@@ -32,7 +43,7 @@ services:
       - .env
 
   pgadmin:
-    container_name: pgadmin_container
+    container_name: postgres_admin
     image: dpage/pgadmin4
     restart: on-failure
     env_file:
@@ -44,6 +55,34 @@ services:
     depends_on:
       - postgres
 
+  mongodb:
+    image: mongo:3.6
+    container_name: mongo_db
+    ports:
+      - 27017:27017
+    command: [ "--bind_ip_all", "--smallfiles" ]
+    volumes:
+      - mongo_data:/data/db
+    env_file:
+      - .env
+    restart: always
+
+  mongoadmin:
+    image: mongo-express
+    restart: on-failure
+    container_name: mongo_admin
+    ports:
+      - 8091:8081
+    env_file:
+      - .env
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+
 volumes:
+  static_content: { }
+  media_content: { }
+  mongo_data: { }
   pg_data: { }
   pgadmin_data: { }
