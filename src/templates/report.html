@@ -1,0 +1,63 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+    <link href="/static/css/font.css" rel="stylesheet">
+    <link href="/static/css/item_added_button.css" rel="stylesheet">
+    <link href="/static/css/item_added_button.css" rel="stylesheet">
+    <link href="/static/css/form.css" rel="stylesheet">
+    <style>
+        .form-group input:focus {
+            border-color: darkred;
+            outline: none;
+        }
+    </style>
+    <section class="py-5 text-center container"
+             style="margin-top: 20px; background-image: url('/static/img/benedict_img.jpg'); background-size: cover;">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <strong style="font-size: 65px; color: darkred">REPORT</strong>
+            </div>
+        </div>
+    </section>
+    <section class="py-5 text-center container" style="margin-top: 10px;">
+        {% if messages %}
+            {% for message in messages %}
+                <strong style="color: darkred; font-size: 35px" {% if message.tags %}
+                        class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+            {% endfor %}
+        {% else %}
+            <strong style="font-size: 35px; color: black">Describe your problem<br> and provide an email to contact
+                you</strong>
+            <hr style="border: none; border-top: 3px solid black; width: 45%; margin: 0 auto;">
+            <strong style="font-size: 35px; color: black">Опишіть вашу проблему<br> та вкажіть електронну адресу для
+                зв'язку
+                з вами</strong>
+        {% endif %}
+        <form style="margin-top: 40px" method="post" action="{% url 'core:report' %}">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <strong style="font-size: 19px">{{ field.label_tag }}</strong>
+                    <strong>{{ field }}</strong>
+                    {% if field.errors %}
+                        <div class="alert alert-danger" role="alert" style="margin-top: 5px">
+                            {% for error in field.errors %}
+                                <li><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-danger"><strong>SEND</strong></button>
+        </form>
+    </section>
+    <section class="py-5 text-center container"
+             style="margin-top: 20px; background-image: url('/static/img/benedict_image.jpg'); background-size: cover;">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <strong style="font-size: 65px; color: darkred">REPORT</strong>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -6,10 +6,11 @@ services:
     container_name: backend
     working_dir: /store
     ports:
-      - 8010:8000
-    command: sh -c "python /src/manage.py makemigrations && python /src/manage.py migrate && python /src/manage.py collectstatic --noinput && python /src/manage.py runserver 0:8000"
+      - ${LOCAL_PORT}:${WSGI_PORT}
+    command:
+      - ./commands/start_server_${MODE}.sh
     volumes:
-      - ./src:/src
+      - ./src:/store/src
       - static_content:/store/src/static
       - media_content:/store/src/media
     env_file:
@@ -21,12 +22,12 @@ services:
     image: nginx:1.19
     container_name: nginx_ws
     volumes:
-      - ./src/static:/store/src/static
-      - ./src/media:/store/src/media
+      - static_content:/store/src/static
+      - media_content:/store/src/media
       - ./nginx:/etc/nginx/conf.d
     ports:
-      - 80:80
-      - 443:443
+      - ${HTTP_PORT}
+      - ${HTTPS_PORT}
     env_file:
       - .env
     depends_on:
@@ -36,7 +37,7 @@ services:
     image: postgres:12
     container_name: postgres_db
     ports:
-      - 5433:5433
+      - ${DOCKER_POSTGRES_PORT}
     volumes:
       - pg_data:/var/lib/postgresql/data
     env_file:
@@ -49,7 +50,7 @@ services:
     env_file:
       - .env
     ports:
-      - 5100:80
+      - ${DOCKER_PG_ADMIN_PORT}
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     depends_on:
@@ -59,7 +60,7 @@ services:
     image: mongo:3.6
     container_name: mongo_db
     ports:
-      - 27017:27017
+      - ${DOCKER_MONGO_PORT}
     command: [ "--bind_ip_all", "--smallfiles" ]
     volumes:
       - mongo_data:/data/db
@@ -72,13 +73,77 @@ services:
     restart: on-failure
     container_name: mongo_admin
     ports:
-      - 8091:8081
+      - ${DOCKER_MONGO_ADMIN_PORT}
     env_file:
       - .env
     links:
       - mongodb
     depends_on:
       - mongodb
+
+  redis:
+    image: redis
+    restart: on-failure
+    container_name: redis_db
+    env_file:
+      - .env
+    depends_on:
+      - backend
+
+  celery:
+    build: ./
+    command:
+      - ./commands/start_celery.sh
+    restart: always
+    container_name: celery
+    volumes:
+      - ./src:/store
+      - ./commands:/store/commands
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - backend
+
+  celerybeat:
+    build: ./
+    command:
+      - ./commands/start_celerybeat.sh
+    restart: always
+    container_name: celerybeat
+    volumes:
+      - ./src:/store
+      - ./commands:/store/commands
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - backend
+
+  flower:
+    build: ./
+    container_name: celery_admin
+    command: celery -A config flower --broker=redis://redis
+    volumes:
+      - ./src:/store
+    env_file:
+      - .env
+    ports:
+      - ${DOCKER_FLOWER_PORT}
+    restart: on-failure
+    depends_on:
+      - celery
+      - redis
+
+  redisadmin:
+    image: rediscommander/redis-commander:latest
+    container_name: redis_admin
+    hostname: redis_admin
+    restart: always
+    ports:
+      - ${DOCKER_REDIS_ADMIN_PORTS}
+    env_file:
+      - .env
 
 volumes:
   static_content: { }

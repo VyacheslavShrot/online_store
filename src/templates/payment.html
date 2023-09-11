@@ -4,15 +4,7 @@
 {% block content %}
     <link href="/static/css/font.css" rel="stylesheet">
     <link href="/static/css/item_added_button.css" rel="stylesheet">
-    <div style="text-align: center; margin-top: 85px; margin-bottom: 380px">
-{#        <div style="position: absolute; margin-left: 50px; margin-top: 125px">#}
-{#            {% for item in cart_items %}#}
-{#                <img style="margin-top: 20px" width="115px" height="115px" src="{{ item.product.photo1.url }}" alt="">#}
-{#                <strong style="margin-left: 20px">{{ item.product.title }}</strong><br>#}
-{#                <strong style="margin-top: 25px; margin-left: 65px; color: #9b9b9b">{{ item.product.price }} $</strong>#}
-{#                <br>#}
-{#            {% endfor %}#}
-{#        </div>#}
+    <div style="text-align: center; margin-top: 85px; margin-bottom: 100px">
         <div style="text-align: center;"><a href="/order/" style="text-decoration: none; color: black"><strong
                 style="font-size: 19px">FORM</strong></a></div>
         <div style="text-align: center;"><a href="/department/" style="text-decoration: none; color: black"><strong
@@ -21,7 +13,51 @@
         {% if request.GET.cancel %}
             <strong style="font-size: 25px; color: darkred">Payment was canceled</strong>
         {% endif %}
-        <p style="margin-top: 35px"><strong style="font-size: 24px">Total amount: {{ total }} $</strong></p>
+        {% if cart_items %}
+            <table class=""
+                   style="border: none; margin-top: 50px; border-radius: 0; color: black; text-align: left; margin-left: 200px; font-size: 20px">
+                <thead>
+                <tr>
+                    <th scope="col" style="border: none; width: 600px"><strong>PRODUCT</strong></th>
+                    <th scope="col" style="border: none; width: 220px"><strong>PRICE</strong></th>
+                    <th scope="col" style="border: none; width: 220px"><strong>SIZE</strong></th>
+                    <th scope="col" style="border: none;"><strong>QUANTITY</strong></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for cart_item in cart_items %}
+                    <tr>
+                        <th style="border: none">
+                            <a href="{% url 'store:remove_from_cart' cart_item.product.id %}"
+                               style="text-decoration: none; color: black;">
+                                <svg style="margin-bottom: 72px; margin-right: 15px" class="svg-icon icon-close "
+                                     xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                     viewBox="0 0 20 20" fill="none">
+
+                                    <title>Close Icon</title>
+
+                                    <path d="M15 5L10 10L5 15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M5 5L10 10L15 15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </a>
+                            <a href="{% url 'store:product' cart_item.product.id %}"><img
+                                    width="120px" height="120px" style="margin-top: 45px"
+                                    src="{{ cart_item.product.photo1.url }}"
+                                    alt="..."></a>
+                            <strong style="margin-left: 25px">{{ cart_item.product.title }}</strong>
+
+                        </th>
+                        <th style="border: none;"><strong>{{ cart_item.product.price }} $</strong></th>
+                        <th style="border: none;"><strong>{{ cart_item.product.size }}</strong></th>
+                        <th style="border: none;"><strong>{{ cart_item.quantity }}</strong></th>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <p style="margin-top: 35px"><strong style="font-size: 24px">Total amount: {{ total }} $</strong></p>
+        {% endif %}
         <form method="post" action="https://www.paypal.com/cgi-bin/webscr">
             {% csrf_token %}
             <strong>
@@ -40,5 +76,5 @@
                 </div>
             </div>
         </form>
-    </div>
+        </div>
 {% endblock %}

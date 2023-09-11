@@ -3,18 +3,11 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
 
-def send_order_email(total, cart_items, name, surname, phone_number, email, city, department, description):
+def send_report_email(email, description):
     message = render_to_string(
-        template_name="email.html",
+        template_name="report_email.html",
         context={
-            "total": total,
-            "cart_items": cart_items,
-            "name": name,
-            "surname": surname,
-            "phone_number": phone_number,
             "email": email,
-            "city": city,
-            "department": department,
             "description": description,
         },
     )
@@ -24,18 +17,28 @@ def send_order_email(total, cart_items, name, surname, phone_number, email, city
     email_send.send(fail_silently=settings.EMAIL_FAIL_SILENTLY)
 
 
-def send_order_client_email(cart_items, name, email, city, department):
+def send_client_report_email(email, description):
     message = render_to_string(
-        template_name="client_email.html",
+        template_name="client_report_email.html",
         context={
-            "cart_items": cart_items,
-            "name": name,
             "email": email,
-            "city": city,
-            "department": department,
+            "description": description
         },
     )
 
     email_send = EmailMessage(subject="sle3pinghood", body=message, to=[email])
+    email_send.content_subtype = "html"
+    email_send.send(fail_silently=settings.EMAIL_FAIL_SILENTLY)
+
+
+def send_admin_notification(notification):
+    message = render_to_string(
+        template_name="admin_notification.html",
+        context={
+            "notification": notification,
+        },
+    )
+
+    email_send = EmailMessage(subject="sle3pinghood", body=message, to=[settings.EMAIL_HOST_USER])
     email_send.content_subtype = "html"
     email_send.send(fail_silently=settings.EMAIL_FAIL_SILENTLY)

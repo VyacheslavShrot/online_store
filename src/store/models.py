@@ -60,3 +60,4 @@ class Archive(BaseModel, ImageModel):
 
     def archive_count(self):
         return Archive.objects.count()
+

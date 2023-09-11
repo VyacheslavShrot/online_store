@@ -43,7 +43,14 @@
     <div class="album py-5">
         <div class="container" style="margin-top: 80px">
             <div style="text-align: center; margin-bottom: 40px">
-                <strong style="font-size: 35px">{{ categories.title }}</strong>
+                <section class="py-5 text-center container"
+                         style="margin-top: 20px; background-image: url('/static/img/benedict_image.jpg'); background-size: cover;">
+                    <div class="row py-lg-5">
+                        <div class="col-lg-6 col-md-8 mx-auto">
+                            <strong style="font-size: 65px; color: white">{{ categories.title }}</strong>
+                        </div>
+                    </div>
+                </section>
                 <form method="GET" action="{% url 'store:category' categories.id %}">
                     <div style="text-align: left">
                         <button style="margin-top: 44px; margin-left: 200px; position: absolute"><strong

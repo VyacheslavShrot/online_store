@@ -1,0 +1,8 @@
+<strong>{{ name|upper }}, Your order has been accepted and will be shipped shortly</strong><br><br>
+{% for item in cart_items %}
+    <strong style="font-size: 23px">PRODUCT INFORMATION</strong><br>
+    <strong>{{ item.product }} $</strong><br>
+{% endfor %}<br>
+<strong>Delivery will be sent to this address {{ city }} {{ department }}</strong><br><br>
+<strong>Thank you for purchasing from our store, G</strong><br><br>
+<strong>sle3pinghood</strong>

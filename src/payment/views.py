@@ -9,8 +9,8 @@ from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.signals import valid_ipn_received
 
 from payment.forms import DepartmentForm, OrderForm
-from payment.services.emails import send_registration_email
-from store.models import Product
+from payment.tasks import send_order_email_task
+from store.models import Category
 from store.views import get_cart_items
 
 
@@ -88,6 +88,7 @@ class Payment(TemplateView, FormView):
         order_data = request.session.get("order_data")
         order_department = request.session.get("order_department")
         cart_items, total = get_cart_items(request)
+        categories = Category.objects.all()
 
         item_name = "Order from sle3pinghood"
         paypal_dict = {
@@ -110,7 +111,7 @@ class Payment(TemplateView, FormView):
             city = order_data.get("city")
             department = order_department.get("department")
             description = order_department.get("description")
-            send_registration_email(
+            send_order_email_task(
                 total,
                 cart_items,
                 name=name,
@@ -123,7 +124,8 @@ class Payment(TemplateView, FormView):
             )
 
         return render(
-            request, "payment.html", {"total": total, "payment_form": payment_form, "cart_items": cart_items}
+            request, "payment.html",
+            {"total": total, "payment_form": payment_form, "cart_items": cart_items, "categories": categories}
         )
 
     @csrf_exempt
@@ -133,7 +135,7 @@ class Payment(TemplateView, FormView):
             # Done payment
             cart_items, total = get_cart_items(ipn_obj.get("invoice"))
             # item_name = "Order from sle3pinghood"
-            send_registration_email(str(total), str(cart_items))
+            send_order_email_task(str(total), str(cart_items))
 
         return HttpResponse(status=200)
 
@@ -145,4 +147,4 @@ def payment_notification(sender, **kwargs):
         # Done payment
         cart_items, total = get_cart_items(ipn_obj.get("invoice"))
         # item_name = "Order from sle3pinghood"
-        send_registration_email(str(total), str(cart_items))
+        send_order_email_task(str(total), str(cart_items))

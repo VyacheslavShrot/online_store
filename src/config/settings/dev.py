@@ -52,11 +52,3 @@ else:
     }
 
 STATIC_URL = "/static/"
-STATIC_ROOT = "src/static"
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = "src/media"
-
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]

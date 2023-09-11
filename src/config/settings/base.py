@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -30,10 +31,12 @@ INSTALLED_APPS = [
     "djoser",
     "drf_yasg",
     "django_extensions",
+    "django_celery_beat",
     "store",
     "core",
     "api",
     "payment",
+    "config",
     "paypal.standard.ipn",
     "phonenumber_field",
     "baton.autodiscover",
@@ -139,7 +142,7 @@ DJOSER = {
 }
 
 """
-    For sessions
+    FOR SESSIONS
 """
 SESSION_COOKIE_AGE = 86400
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
@@ -147,13 +150,13 @@ SESSION_FILE_PATH = ...
 SESSION_SAVE_EVERY_REQUEST = True
 
 """
-    For PayPal
+    FOR PAYPAL
 """
 PAYPAL_RECEIVER_EMAIL = os.environ.get("EMAIL_HOST_USER")
 PAYPAL_TEST = True
 
 """
-    For send email
+    FOR SEND EMAIL
 """
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
@@ -162,3 +165,23 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 587
 EMAIL_FAIL_SILENTLY = True
+
+"""
+    FOR CELERY
+"""
+CELERY_BROKER_URL = "redis://redis"
+CELERY_RESULT_BACKEND = "redis://redis"
+
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TASK_SERIALIZER = "json"
+
+"""
+    FOR CELERY BEAT
+"""
+CELERY_BEAT_SCHEDULE = {
+    "monitor-website": {
+        "task": "core.tasks.monitor_website",
+        "schedule": crontab(hour="*"),
+    },
+}
