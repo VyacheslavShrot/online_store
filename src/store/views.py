@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from asgiref.sync import sync_to_async
 from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
@@ -25,7 +26,7 @@ class StoreView(TemplateView):
     def get(self, request, **kwargs):
         products = Product.objects.all()
         categories = Category.objects.all()
-        cart_items, total = get_cart_items(request)
+        cart_items, total = sync_get_cart_items(request)
 
         sort_by = request.GET.get("sort_by", "")
         if sort_by == "-price":
@@ -87,7 +88,7 @@ class ProductCategoryView(TemplateView):
         products = Product.objects.filter(category=id)
         all_category = Category.objects.all()
         categories = get_object_or_404(Category.objects.all(), id=id)
-        cart_items, total = get_cart_items(request)
+        cart_items, total = sync_get_cart_items(request)
 
         sort_by = request.GET.get("sort_by", "")
         if sort_by == "-price":
@@ -139,12 +140,29 @@ class ProductView(TemplateView):
     template_name = "product.html"
     http_method_names = ["get"]
 
-    def get(self, request, id):
-        categories = Category.objects.all()
-        product_category = get_object_or_404(Category.objects.all(), id=id)
-        products = get_object_or_404(Product.objects.all(), id=id)
-        product_like = Product.objects.filter(category=products.category)[:3]
-        cart_items, total = get_cart_items(request)
+    @sync_to_async
+    def get_category(self, product_id):
+        product = get_object_or_404(Product, id=product_id)
+        return product.category
+
+    @sync_to_async
+    def get_product(self, product_id):
+        return get_object_or_404(Product, id=product_id)
+
+    @sync_to_async
+    def get_product_like(self, products):
+        return Product.objects.filter(category=products.category)[:3]
+
+    async def get(self, request, product_id):
+        cart_items, total = await async_get_cart_items(request)
+        categories = []
+
+        async for category in Category.objects.all():
+            categories.append(category)
+
+        product_category = await self.get_category(product_id)
+        products = await self.get_product(product_id)
+        product_like = await self.get_product_like(products)
 
         return render(
             request,
@@ -164,10 +182,16 @@ class ArchiveView(TemplateView):
     template_name = "archive.html"
     http_method_names = ["get"]
 
-    def get(self, request):
-        archives = Archive.objects.all()
-        all_category = Category.objects.all()
-        cart_items, total = get_cart_items(request)
+    async def get(self, request):
+        cart_items, total = await async_get_cart_items(request)
+        archives = []
+        all_category = []
+
+        async for archive in Archive.objects.all():
+            archives.append(archive)
+
+        async for category in Category.objects.all():
+            all_category.append(category)
 
         return render(
             request,
@@ -205,10 +229,38 @@ class RemoveFromCart(RedirectView):
         return redirect(url)
 
 
-def get_cart_items(request):
+@sync_to_async
+def get_cart(request):
+    cart = request.session.get("cart", {})
+    return cart
+
+
+@sync_to_async
+def get_product(product_id):
+    product = get_object_or_404(Product, id=product_id)
+    return product
+
+
+async def async_get_cart_items(request):
+    cart = await get_cart(request)
+    cart_items = []
+    total = 0
+
+    for product_id, item in cart.items():
+        product = await get_product(product_id)
+
+        quantity = item["quantity"]
+        subtotal = product.price * quantity
+        total += subtotal
+        cart_items.append({"product": product, "quantity": quantity, "subtotal": subtotal})
+    return cart_items, total
+
+
+def sync_get_cart_items(request):
     cart = request.session.get("cart", {})
     cart_items = []
     total = 0
+
     for product_id, item in cart.items():
         product = get_object_or_404(Product, id=product_id)
         quantity = item["quantity"]
@@ -219,8 +271,11 @@ def get_cart_items(request):
 
 
 class Cart(TemplateView):
-    def get(self, request, *args, **kwargs):
-        cart_items, total = get_cart_items(request)
-        categories = Category.objects.all()
+    async def get(self, request, *args, **kwargs):
+        cart_items, total = await async_get_cart_items(request)
+        categories = []
+
+        async for category in Category.objects.all():
+            categories.append(category)
 
         return render(request, "cart.html", {"cart_items": cart_items, "total": total, "categories": categories})

@@ -1,3 +1,5 @@
+import os
+
 from django.contrib import messages
 from django.dispatch import receiver
 from django.http import HttpResponse
@@ -11,7 +13,7 @@ from paypal.standard.ipn.signals import valid_ipn_received
 from payment.forms import DepartmentForm, OrderForm
 from payment.tasks import send_order_email_task
 from store.models import Category
-from store.views import get_cart_items
+from store.views import sync_get_cart_items
 
 
 class Order(TemplateView, FormView):
@@ -21,7 +23,7 @@ class Order(TemplateView, FormView):
     success_url = "/department/"
 
     def get(self, request, *args, **kwargs):
-        cart_items, total = get_cart_items(request)
+        cart_items, total = sync_get_cart_items(request)
         form_data = request.session.get("order_data")
         if form_data:
             form = self.form_class(initial=form_data)
@@ -47,7 +49,7 @@ class Order(TemplateView, FormView):
         return redirect(self.success_url)
 
     def form_invalid(self, form):
-        cart_items, total = get_cart_items(self.request)
+        cart_items, total = sync_get_cart_items(self.request)
         return self.render_to_response(self.get_context_data(form=form, cart_items=cart_items, total=total))
 
 
@@ -58,7 +60,7 @@ class Department(TemplateView, FormView):
     success_url = "/payment/"
 
     def get(self, request, *args, **kwargs):
-        cart_items, total = get_cart_items(request)
+        cart_items, total = sync_get_cart_items(request)
         order_data = request.session.get("order_data")
         city = order_data.get("city")
         form = self.form_class(city=city)
@@ -87,12 +89,12 @@ class Payment(TemplateView, FormView):
     def get(self, request, *args, **kwargs):
         order_data = request.session.get("order_data")
         order_department = request.session.get("order_department")
-        cart_items, total = get_cart_items(request)
+        cart_items, total = sync_get_cart_items(request)
         categories = Category.objects.all()
 
         item_name = "Order from sle3pinghood"
         paypal_dict = {
-            "business": "slavikshrot@gmail.com",
+            "business": os.environ.get("PAYPAL_BUSINESS"),
             "amount": total,
             "currency_code": "USD",
             "item_name": item_name,
@@ -101,7 +103,21 @@ class Payment(TemplateView, FormView):
             "return_url": request.build_absolute_uri(reverse("store:cart")),
             "cancel_return": request.build_absolute_uri(reverse("payment")) + "?cancel=1&custom={}".format(item_name),
         }
+
         payment_form = PayPalPaymentsForm(initial=paypal_dict)
+
+        cart_items_data = []
+        for item in cart_items:
+            product = item["product"]
+            product_data = {
+                "id": product.id,
+                "category": product.category.title,
+                "title": product.title,
+                "price": str(product.price),
+                "photo1": product.photo1.url
+            }
+            cart_items_data.append({"product": product_data, "quantity": item["quantity"],
+                                    "subtotal": str(item["subtotal"])})
 
         if order_data:
             name = order_data.get("name")
@@ -111,9 +127,9 @@ class Payment(TemplateView, FormView):
             city = order_data.get("city")
             department = order_department.get("department")
             description = order_department.get("description")
-            send_order_email_task(
+            send_order_email_task.delay(
                 total,
-                cart_items,
+                cart_items_data,
                 name=name,
                 surname=surname,
                 email=email,
@@ -125,7 +141,7 @@ class Payment(TemplateView, FormView):
 
         return render(
             request, "payment.html",
-            {"total": total, "payment_form": payment_form, "cart_items": cart_items, "categories": categories}
+            {"total": total, "payment_form": payment_form, "cart_items": cart_items_data, "categories": categories}
         )
 
     @csrf_exempt
@@ -133,9 +149,9 @@ class Payment(TemplateView, FormView):
         ipn_obj = request.POST
         if ipn_obj.get("txn_type") == "web_accept" and ipn_obj.get("payment_status") == "Completed":
             # Done payment
-            cart_items, total = get_cart_items(ipn_obj.get("invoice"))
+            cart_items, total = sync_get_cart_items(ipn_obj.get("invoice"))
             # item_name = "Order from sle3pinghood"
-            send_order_email_task(str(total), str(cart_items))
+            send_order_email_task.delay(str(total), str(cart_items))
 
         return HttpResponse(status=200)
 
@@ -145,6 +161,6 @@ def payment_notification(sender, **kwargs):
     ipn_obj = sender
     if ipn_obj.get("txn_type") == "web_accept" and ipn_obj.get("payment_status") == "Completed":
         # Done payment
-        cart_items, total = get_cart_items(ipn_obj.get("invoice"))
+        cart_items, total = sync_get_cart_items(ipn_obj.get("invoice"))
         # item_name = "Order from sle3pinghood"
-        send_order_email_task(str(total), str(cart_items))
+        send_order_email_task.delay(str(total), str(cart_items))

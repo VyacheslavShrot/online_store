@@ -44,10 +44,9 @@
                             </a>
                             <a href="{% url 'store:product' cart_item.product.id %}"><img
                                     width="120px" height="120px" style="margin-top: 45px"
-                                    src="{{ cart_item.product.photo1.url }}"
+                                    src="{{ cart_item.product.photo1 }}"
                                     alt="..."></a>
                             <strong style="margin-left: 25px">{{ cart_item.product.title }}</strong>
-
                         </th>
                         <th style="border: none;"><strong>{{ cart_item.product.price }} $</strong></th>
                         <th style="border: none;"><strong>{{ cart_item.product.size }}</strong></th>
@@ -76,5 +75,5 @@
                 </div>
             </div>
         </form>
-        </div>
+    </div>
 {% endblock %}
