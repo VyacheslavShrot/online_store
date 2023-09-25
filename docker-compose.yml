@@ -120,30 +120,30 @@ services:
 #      - redis
 #      - backend
 
-  flower:
-    build: ./
-    container_name: celery_admin
-    command: celery -A config flower --broker=redis://redis
-    volumes:
-      - ./src:/store
-    env_file:
-      - .env
-    ports:
-      - ${DOCKER_FLOWER_PORT}
-    restart: on-failure
-    depends_on:
-      - celery
-      - redis
+#  flower:
+#    build: ./
+#    container_name: celery_admin
+#    command: celery -A config flower --broker=redis://redis
+#    volumes:
+#      - ./src:/store
+#    env_file:
+#      - .env
+#    ports:
+#      - ${DOCKER_FLOWER_PORT}
+#    restart: on-failure
+#    depends_on:
+#      - celery
+#      - redis
 
-  redisadmin:
-    image: rediscommander/redis-commander:latest
-    container_name: redis_admin
-    hostname: redis_admin
-    restart: always
-    ports:
-      - ${DOCKER_REDIS_ADMIN_PORTS}
-    env_file:
-      - .env
+#  redisadmin:
+#    image: rediscommander/redis-commander:latest
+#    container_name: redis_admin
+#    hostname: redis_admin
+#    restart: always
+#    ports:
+#      - ${DOCKER_REDIS_ADMIN_PORTS}
+#    env_file:
+#      - .env
 
 volumes:
   static_content: { }
