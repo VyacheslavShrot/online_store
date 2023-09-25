@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, FormView
 
 from core.forms import ReportForm
-from core.tasks import send_report_email_task
+from core.services.emails import send_report_email, send_client_report_email
+# from core.tasks import send_report_email_task
 from store.models import Category
 from store.views import async_get_cart_items, sync_get_cart_items
 
@@ -60,7 +61,9 @@ class ReportView(TemplateView, FormView):
             "email": email,
         }
         messages.success(self.request, 'Report of your problem was sending')
-        send_report_email_task.delay(email=email, description=description)
+        # send_report_email_task.delay(email=email, description=description)
+        send_report_email(email=email, description=description)
+        send_client_report_email(email=email, description=description)
         return redirect(self.success_url)
 
     def form_invalid(self, form):

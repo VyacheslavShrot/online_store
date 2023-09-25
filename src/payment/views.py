@@ -11,7 +11,8 @@ from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.signals import valid_ipn_received
 
 from payment.forms import DepartmentForm, OrderForm
-from payment.tasks import send_order_email_task
+from payment.services.emails import send_order_email, send_order_client_email
+# from payment.tasks import send_order_email_task
 from store.models import Category
 from store.views import sync_get_cart_items
 
@@ -127,17 +128,20 @@ class Payment(TemplateView, FormView):
             city = order_data.get("city")
             department = order_department.get("department")
             description = order_department.get("description")
-            send_order_email_task.delay(
-                total,
-                cart_items_data,
-                name=name,
-                surname=surname,
-                email=email,
-                phone_number=phone_number,
-                city=city,
-                department=department,
-                description=description,
-            )
+            # send_order_email_task.delay(
+            #     total,
+            #     cart_items_data,
+            #     name=name,
+            #     surname=surname,
+            #     email=email,
+            #     phone_number=phone_number,
+            #     city=city,
+            #     department=department,
+            #     description=description,
+            # )
+            send_order_email(email=email, description=description, total=total, cart_items=cart_items, name=name,
+                             surname=surname, phone_number=phone_number, city=city, department=department)
+            send_order_client_email(cart_items=cart_items, name=name, email=email, department=department, city=city)
 
         return render(
             request, "payment.html",
@@ -151,7 +155,8 @@ class Payment(TemplateView, FormView):
             # Done payment
             cart_items, total = sync_get_cart_items(ipn_obj.get("invoice"))
             # item_name = "Order from cashyong"
-            send_order_email_task.delay(str(total), str(cart_items))
+            # send_order_email_task.delay(str(total), str(cart_items))
+
 
         return HttpResponse(status=200)
 
@@ -163,4 +168,4 @@ def payment_notification(sender, **kwargs):
         # Done payment
         cart_items, total = sync_get_cart_items(ipn_obj.get("invoice"))
         # item_name = "Order from cashyong"
-        send_order_email_task.delay(str(total), str(cart_items))
+        # send_order_email_task.delay(str(total), str(cart_items))
