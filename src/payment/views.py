@@ -92,7 +92,7 @@ class Payment(TemplateView, FormView):
         cart_items, total = sync_get_cart_items(request)
         categories = Category.objects.all()
 
-        item_name = "Order from sle3pinghood"
+        item_name = "Order from cashyong"
         paypal_dict = {
             "business": os.environ.get("PAYPAL_BUSINESS"),
             "amount": total,
@@ -150,7 +150,7 @@ class Payment(TemplateView, FormView):
         if ipn_obj.get("txn_type") == "web_accept" and ipn_obj.get("payment_status") == "Completed":
             # Done payment
             cart_items, total = sync_get_cart_items(ipn_obj.get("invoice"))
-            # item_name = "Order from sle3pinghood"
+            # item_name = "Order from cashyong"
             send_order_email_task.delay(str(total), str(cart_items))
 
         return HttpResponse(status=200)
@@ -162,5 +162,5 @@ def payment_notification(sender, **kwargs):
     if ipn_obj.get("txn_type") == "web_accept" and ipn_obj.get("payment_status") == "Completed":
         # Done payment
         cart_items, total = sync_get_cart_items(ipn_obj.get("invoice"))
-        # item_name = "Order from sle3pinghood"
+        # item_name = "Order from cashyong"
         send_order_email_task.delay(str(total), str(cart_items))

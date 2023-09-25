@@ -12,7 +12,7 @@ def send_report_email(email, description):
         },
     )
 
-    email_send = EmailMessage(subject="sle3pinghood", body=message, to=[settings.EMAIL_HOST_USER])
+    email_send = EmailMessage(subject="cashyong", body=message, to=[settings.EMAIL_HOST_USER])
     email_send.content_subtype = "html"
     email_send.send(fail_silently=settings.EMAIL_FAIL_SILENTLY)
 
@@ -26,7 +26,7 @@ def send_client_report_email(email, description):
         },
     )
 
-    email_send = EmailMessage(subject="sle3pinghood", body=message, to=[email])
+    email_send = EmailMessage(subject="cashyong", body=message, to=[email])
     email_send.content_subtype = "html"
     email_send.send(fail_silently=settings.EMAIL_FAIL_SILENTLY)
 
@@ -39,6 +39,6 @@ def send_admin_notification(notification):
         },
     )
 
-    email_send = EmailMessage(subject="sle3pinghood", body=message, to=[settings.EMAIL_HOST_USER])
+    email_send = EmailMessage(subject="cashyong", body=message, to=[settings.EMAIL_HOST_USER])
     email_send.content_subtype = "html"
     email_send.send(fail_silently=settings.EMAIL_FAIL_SILENTLY)
