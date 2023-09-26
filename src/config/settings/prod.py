@@ -10,7 +10,7 @@ load_dotenv()
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-ALLOWED_HOSTS = ["localhost", "ec2-107-23-43-39.compute-1.amazonaws.com"]
+ALLOWED_HOSTS = ["localhost", "ec2-54-211-91-208.compute-1.amazonaws.com"]
 
 mongoengine.connect(
     host=os.environ.get("MONGO_ENGINE")
