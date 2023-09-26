@@ -10,7 +10,7 @@ load_dotenv()
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-ALLOWED_HOSTS = ["localhost", "ec2-54-144-193-33.compute-1.amazonaws.com "]
+ALLOWED_HOSTS = ["localhost", "ec2-107-23-43-39.compute-1.amazonaws.com"]
 
 mongoengine.connect(
     host=os.environ.get("MONGO_ENGINE")
@@ -28,7 +28,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }, 
+    },
     "default_postgres": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": os.environ.get("POSTGRES_DB"),
