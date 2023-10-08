@@ -1,5 +1,8 @@
+from asgiref.sync import sync_to_async
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.utils.translation import activate
 from django.views.generic import TemplateView, FormView
 
 from core.forms import ReportForm
@@ -21,7 +24,11 @@ class IndexView(TemplateView):
             categories.append(category)
 
         return render(
-            request, "index.html", context={"cart_items": cart_items, "total": total, "categories": categories}
+            request, "index.html", context={
+                "cart_items": cart_items,
+                "total": total,
+                "categories": categories,
+            }
         )
 
 

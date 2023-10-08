@@ -4,7 +4,7 @@
 {% block content %}
     <link href="/static/css/font.css" rel="stylesheet">
     <link href="/static/css/item_added_button.css" rel="stylesheet">
-    <link href="/static/css/payment.css" rel="stylesheet">
+    <link href="/static/css/payment_worldwide.css" rel="stylesheet">
 
     <div style="text-align: center; margin-top: 85px; margin-bottom: 100px">
         <div style="text-align: center;"><a href="/order/" style="text-decoration: none; color: darkred"><strong
@@ -44,8 +44,8 @@
                                 </svg>
                             </a>
                             <a href="{% url 'store:product' cart_item.product.id %}"><img id="img"
-                                                                                          src="{{ cart_item.product.photo1 }}"
-                                                                                          alt="..."></a>
+                                    src="{{ cart_item.product.photo1 }}"
+                                    alt="..."></a>
                             <strong id="title" style="margin-left: 25px">{{ cart_item.product.title }}</strong>
                         </th>
                         <th style="border: none;"><strong>{{ cart_item.product.price }} $</strong></th>

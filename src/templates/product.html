@@ -7,91 +7,96 @@
     <link href="/static/css/product_card.css" rel="stylesheet">
     <link href="/static/css/item_added_button.css" rel="stylesheet">
     <link href="/static/css/button_back.css" rel="stylesheet">
+    <link href="/static/css/product.css" rel="stylesheet">
+
     <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 190px; position: fixed; margin-top: 100px" xmlns="">
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li>
+        <ul id="navigator" class="nav nav-pills flex-column mb-auto">
+            <li id="navigator_2">
                 <a style="font-weight: bold" href="{% url 'store:store' %}" class="nav-link link-body-emphasis">
                     <svg class="bi pe-none me-2" width="16" height="16">
                         <use xlink:href="#speedometer2"></use>
                     </svg>
-                    <strong style="font-size: 28px">All</strong>
+                    <strong style="font-size: 28px; color: white">All</strong>
                 </a>
             </li>
             {% for category in categories %}
-                <li>
+                <li id="navigator_3">
                     <a style="font-weight: bold" href="{% url 'store:category' category.id %}"
                        class="nav-link link-body-emphasis">
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#speedometer2"></use>
                         </svg>
-                        <strong style="font-size: 28px">{{ category.title }}</strong>
+                        <strong style="font-size: 28px; color: white">{{ category.title }}</strong>
                     </a>
                 </li>
             {% endfor %}
         </ul>
     </div>
-    <div class="" style="position: absolute; margin-top: 200px; margin-left: 170px; width: 250px">
+    <div id="characteristic">
         <h5 style="text-align: left; margin-top: 20px"><strong
-                style="font-size: 23px">{{ products.characteristic }}</strong></h5>
+                style="font-size: 23px; color: white">{{ products.characteristic }}</strong></h5>
         <h5 style="text-align: left; margin-top: 20px"><strong
-                style="font-size: 23px">Size: {{ products.size }}</strong></h5>
+                style="font-size: 23px; color: white">Size: {{ products.size }}</strong></h5>
         {% if products.width %}
             <h6 style="text-align: left;  margin-top: 20px">
-                <strong style="font-size: 19px">Width: {{ products.width }}</strong></h6>
+                <strong style="font-size: 19px; color: white">Width: {{ products.width }}</strong></h6>
         {% endif %}
         {% if products.height %}
             <h6 style="text-align: left;  margin-top: 10px">
-                <strong style="font-size: 19px">Height: {{ products.height }}</strong>
+                <strong style="font-size: 19px; color: white">Height: {{ products.height }}</strong>
             </h6>
         {% endif %}
         {% if products.depth %}
             <h6 style="text-align: left;  margin-top: 10px">
-                <strong style="font-size: 19px">Depth: {{ products.depth }}</strong>
+                <strong style="font-size: 19px; color: white">Depth: {{ products.depth }}</strong>
             </h6>
         {% endif %}
         <h5 style="text-align: left; margin-top: 30px;  color: darkred; font-weight: bold">
-            <strong style="font-size: 23px">Price:
+            <strong style="font-size: 23px; color: white">Price:
                 {{ products.price }}
                 $</strong>
         </h5>
-        <div style="margin-top: 40px;">
-            <strong style="color: darkred; font-size: 18px">Доставка Новою поштою</strong>
-            <img style="margin-left: 8px"
-                 height="30px"
-                 width="30px"
-                 src="/static/img/posta.png"
-                 alt="">
-        </div>
         {% if messages %}
-            <ul class="messages" style="margin-top: 90px; text-align: center">
+            <ul id="message" class="messages">
                 {% for message in messages %}
                     <a href="{% url 'store:cart' %}" class="{{ message.tags }}"
                        style="text-align: center; text-decoration: none">
                         <button style="margin-right: 27px" class="add-button">
-                            <strong>{{ message|safe|upper }}</strong>
+                            <strong style="color: darkred">{{ message|safe|upper }}</strong>
                         </button>
                     </a>
                 {% endfor %}
             </ul>
         {% endif %}
     </div>
-    <div style="position: absolute; text-align: left; margin-top: 22px; margin-left: 22px">
+    <div id="back">
         <a style="text-decoration: none; color: black" href="{% url 'store:category' products.category.id %}">
-        <button class="back-button">
-            <svg style="color:darkred;" height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024">
-                <path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"></path>
-            </svg>
-            <span><strong style="color: darkred; font-size: 21px">{{ product_category.title }}</strong></span>
-        </button>
+            <button class="back-button" style="background-color: transparent">
+                <svg style="fill: darkred;" height="32" width="32" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024">
+                    <path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"></path>
+                </svg>
+                <span><strong style="color: darkred; font-size: 17px">BACK {{ product_category.title }}</strong></span>
+            </button>
         </a>
     </div>
     <div class="center">
-        <h1 style="text-align: center; margin-top: 90px"><strong>{{ products.title }}</strong></h1>
+        <h1 style="text-align: center; margin-top: 90px; color: darkred"><strong>{{ products.title }}</strong></h1>
+        {% if messages %}
+            <ul id="message_mobile" class="messages">
+                {% for message in messages %}
+                    <a href="{% url 'store:cart' %}" class="{{ message.tags }}"
+                       style="text-align: center; text-decoration: none">
+                        <button style="margin-right: 27px" class="add-button">
+                            <strong style="color: darkred">{{ message|safe|upper }}</strong>
+                        </button>
+                    </a>
+                {% endfor %}
+            </ul>
+        {% endif %}
         {% if products.photo1 %}
-            <div class="d-flex flex-column flex-shrink-0 p-3"
-                 style="width: 190px; position: absolute; margin-top: 40px; margin-left: 870px">
+            <div id="change_img" class="d-flex flex-column flex-shrink-0 p-3">
                 <a>
-                    <img onclick="change_image('first_image');" id="first_image" width="85px" height="85px"
+                    <img onclick="change_image('first_image');" id="first_image"
                          src="{{ products.photo1.url }}" alt="...">
                 </a>
                 {% if products.photo2 %}
@@ -127,28 +132,27 @@
                 {% endif %}
             </div>
         {% endif %}
-        <img class="image" id="main_image" style="margin-left: 107px; margin-top: 80px"
-             src="{{ products.photo1.url }}" alt="..."
-             width="630px" height="630px">
+        <img class="image" id="main_image"
+             src="{{ products.photo1.url }}" alt="...">
         <br>
     </div>
-    <div style="text-align: center; position: center">
+    <div id="add_to_cart" style="text-align: center; position: center;">
         <a href="{% url 'store:add_to_cart' products.id %}">
             <button class="add-button"
-                    style="width: 200px; margin-top: 50px;"><strong style="font-size: 23px">ADD TO CART</strong>
+                    style="width: 200px; margin-top: 50px;"><strong style="font-size: 23px; color: darkred">ADD TO CART</strong>
             </button>
         </a>
     </div>
     {% if product_like.count > 1 %}
-        <div style="margin-top: 100px; text-align: center;">
+        <div id="also_like" style="margin-top: 100px; text-align: center;">
             <strong style="font-size: 40px">YOU MAY ALSO LIKE</strong><br>
         </div>
-        <div class="album" style="margin-bottom: 75px">
+        <div id="also_like_product" class="album" style="margin-bottom: 75px">
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     {% for products_like in product_like %}
                         <div class="col">
-                            <div class="card" style="border: none; box-shadow: none; width: 220px; ">
+                            <div class="card" style="border: none; box-shadow: none; width: 220px; background-color: transparent">
                                 <a href="{% url 'store:product' products_like.id %}"
                                    style="text-decoration: none;">
                                     <img style="margin-top: 50px" src="{{ products_like.photo1.url }}" alt="..."
@@ -156,8 +160,8 @@
                                          height="220px">
                                 </a>
                                 <div class="card-body" style="text-align: center; ">
-                                    <strong style="">{{ products_like.title }}</strong><br>
-                                    <small class="text-body-secondary"><strong>{{ products_like.price }}
+                                    <strong style="color: darkred">{{ products_like.title }}</strong><br>
+                                    <small class="text-body-secondary"><strong style="color: darkred">{{ products_like.price }}
                                         $</strong></small>
                                 </div>
                             </div>

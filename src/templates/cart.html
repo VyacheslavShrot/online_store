@@ -4,12 +4,13 @@
 {% block content %}
     <link href="/static/css/font.css" rel="stylesheet">
     <link href="/static/css/item_added_button.css" rel="stylesheet">
+    <link href="/static/css/cart.css" rel="stylesheet">
+
     <div style="text-align: center">
-        <h1 style="margin-top: 100px; font-weight: bold"><strong style="font-size: 50px">CART</strong></h1>
+        <h1 style="margin-top: 100px; font-weight: bold"><strong style="font-size: 50px; color: white">CART</strong></h1>
     </div>
     {% if cart_items %}
-        <table class=""
-               style="border: none; margin-top: 50px; border-radius: 0; color: black; text-align: left; margin-left: 200px; font-size: 20px">
+        <table id="table">
             <thead>
             <tr>
                 <th scope="col" style="border: none; width: 600px"><strong>PRODUCT</strong></th>
@@ -23,7 +24,7 @@
                 <tr>
                     <th style="border: none">
                         <a href="{% url 'store:remove_from_cart' cart_item.product.id %}"
-                           style="text-decoration: none; color: black;">
+                           style="text-decoration: none; color: white;">
                             <svg style="margin-bottom: 72px; margin-right: 15px" class="svg-icon icon-close "
                                  xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                  viewBox="0 0 20 20" fill="none">
@@ -36,11 +37,10 @@
                                       stroke-linecap="round" stroke-linejoin="round"></path>
                             </svg>
                         </a>
-                        <a href="{% url 'store:product' cart_item.product.id %}"><img
-                                width="120px" height="120px" style="margin-top: 45px"
-                                src="{{ cart_item.product.photo1.url }}"
-                                alt="..."></a>
-                        <strong style="margin-left: 25px">{{ cart_item.product.title }}</strong>
+                        <a href="{% url 'store:product' cart_item.product.id %}"><img id="img"
+                                                                                      src="{{ cart_item.product.photo1.url }}"
+                                                                                      alt="..."></a>
+                        <strong id="title" style="margin-left: 25px">{{ cart_item.product.title }}</strong>
 
                     </th>
                     <th style="border: none;"><strong>{{ cart_item.product.price }} $</strong></th>
@@ -50,28 +50,35 @@
             {% endfor %}
             </tbody>
         </table>
-        <div style="margin-top: 50px; margin-left: 205px">
-            <strong style="color: darkred; font-size: 18px">Доставка Новою поштою</strong>
-            <img style="margin-left: 8px"
-                 height="30px"
-                 width="30px"
-                 src="/static/img/posta.png"
-                 alt="">
-        </div>
-        <div style="font-weight: bold; font-size: 25px; text-align: center; margin-top: 15px; margin-bottom: 100px">
-            <strong>TOTAL {{ total }} $</strong><br>
-            <a href="{% url 'order' %}">
+        <div style="font-weight: bold; font-size: 25px; text-align: center; margin-top: 15px; margin-bottom: 30px">
+            <strong style="color: white">TOTAL {{ total }} $</strong><br>
+            <span id="right" style="margin: 0 10px; color: darkred">&rarr;</span>
+            <a style="text-decoration: none" href="{% url 'order' %}">
                 <button class="add-button"
-                        style="width: 200px; margin-top: 75px;"><strong style="font-size: 23px">CHECKOUT</strong>
+                        style="width: 200px; margin-top: 75px;"><strong
+                        style="font-size: 23px; color: darkred">NovaPosta</strong>
                 </button>
             </a>
+            <a id="worldwide" href="{% url 'order_worldwide' %}">
+                <button class="add-button"
+                        style="width: 200px; margin-top: 75px;"><strong
+                        style="font-size: 23px; color: darkred">Worldwide</strong>
+                </button>
+            </a>
+            <a id="worldwide_mobile" href="{% url 'order_worldwide' %}">
+                <button class="add-button"
+                        style="width: 200px; margin-top: 75px;"><strong
+                        style="font-size: 23px; color: darkred">Worldwide</strong>
+                </button>
+            </a>
+            <span id="left" style="margin: 0 10px; color: darkred">&larr;</span>
         </div>
     {% else %}
         <div style="text-align: center; margin-top: 50px; margin-bottom: 100px; font-weight: bold">
             <h2><strong style="color: darkred; font-size: 40px">Your cart is empty</strong></h2>
         </div>
         <section class="py-5 text-center container"
-                 style="margin-top: 50px; background-image: url('/static/img/benedict_img.jpg'); background-size: cover;">
+                 style="margin-top: 50px; background-size: cover;">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
                     <a href="{% url 'store:store' %}" class="cta" style="text-decoration: none">
@@ -83,22 +90,14 @@
             </div>
         </section>
     {% endif %}
-    <section class="py-5 text-center container"
-             style="margin-top: 20px; background-image: url('/static/img/main_img.jpeg'); background-size: cover;">
-        {% for category in categories %}
-            <a href="{% url 'store:category' category.id %}" class="cta" style="text-decoration: none">
-                        <span class="hover-underline-animation add-button"
-                              style="text-decoration: none; color: white; margin-top: 55px"><strong
-                                style="text-decoration: none; color: white; font-size: 50px">{{ category.title|upper }}</strong></span><br>
-            </a>
-        {% endfor %}
-    </section>
-    <section class="py-5 text-center container"
-             style="margin-top: 20px; background-image: url('/static/img/benedict_image.jpg'); background-size: cover;">
-        <a href="{% url 'store:archive' %}" class="cta" style="text-decoration: none">
-                        <span class="hover-underline-animation add-button"
-                              style="text-decoration: none; color: white;"><strong
-                                style="text-decoration: none; color: white; font-size: 50px">ARCHIVE</strong></span><br>
-        </a>
-    </section>
+    {#    <section class="py-5 text-center container"#}
+    {#             style="margin-top: 0; background-size: cover;">#}
+    {#        {% for category in categories %}#}
+    {#            <a href="{% url 'store:category' category.id %}" class="cta" style="text-decoration: none">#}
+    {#                        <span class="hover-underline-animation add-button"#}
+    {#                              style="text-decoration: none; color: white; margin-top: 55px"><strong#}
+    {#                                style="text-decoration: none; color: black; font-size: 50px">{{ category.title|upper }}</strong></span><br>#}
+    {#            </a>#}
+    {#        {% endfor %}#}
+    {#    </section>#}
 {% endblock %}
