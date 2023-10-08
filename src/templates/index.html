@@ -11,85 +11,19 @@
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.111.3">
     <title>cashyong</title>
-    <link rel="icon" href="/static/img/benedict_img.jpg" type="image/x-icon">
+    <link rel="icon" href="/static/img/logo.png" type="image/x-icon">
     <link href="/static/css/font.css" rel="stylesheet">
+    <link href="/static/css/index.css" rel="stylesheet">
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-
-
-    <style>
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-
-        .b-example-divider {
-            width: 100%;
-            height: 3rem;
-            background-color: rgba(0, 0, 0, .1);
-            border: solid rgba(0, 0, 0, .15);
-            border-width: 1px 0;
-            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-        }
-
-        .b-example-vr {
-            flex-shrink: 0;
-            width: 1.5rem;
-            height: 100vh;
-        }
-
-        .bi {
-            vertical-align: -.125em;
-            fill: currentColor;
-        }
-
-        .nav-scroller {
-            position: relative;
-            z-index: 2;
-            height: 2.75rem;
-            overflow-y: hidden;
-        }
-
-        .nav-scroller .nav {
-            display: flex;
-            flex-wrap: nowrap;
-            padding-bottom: 1rem;
-            margin-top: -1px;
-            overflow-x: auto;
-            text-align: center;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .btn-bd-primary {
-            --bd-violet-bg: #712cf9;
-            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-            --bs-btn-font-weight: 600;
-            --bs-btn-color: var(--bs-white);
-            --bs-btn-bg: var(--bd-violet-bg);
-            --bs-btn-border-color: var(--bd-violet-bg);
-            --bs-btn-hover-color: var(--bs-white);
-            --bs-btn-hover-bg: #6528e0;
-            --bs-btn-hover-border-color: #6528e0;
-            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-            --bs-btn-active-color: var(--bs-btn-hover-color);
-            --bs-btn-active-bg: #5a23c8;
-            --bs-btn-active-border-color: #5a23c8;
-        }
-
-        .bd-mode-toggle {
-            z-index: 1500;
-        }
-    </style>
-
-
 </head>
 <body>
+<img src="/static/img/background.png" alt="Background Image"
+     style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; filter: blur(7px)">
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <symbol id="check2" viewBox="0 0 16 16">
         <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
@@ -122,8 +56,8 @@
                     <h4 style="font-weight: bold"><strong>Contact</strong></h4>
                     <ul class="list-unstyled">
                         <li style="margin-top: 7px"><a style="text-decoration: none;"
-                                                        href="https://www.instagram.com/sle3pinghood/"
-                                                        class="text-white">
+                                                       href="https://www.instagram.com/sle3pinghood/"
+                                                       class="text-white">
                             <svg style="color: darkred" class="svg-icon icon-instagram "
                                  xmlns="http://www.w3.org/2000/svg" width="30"
                                  height="30" viewBox="0 0 20 20" fill="none">
@@ -178,8 +112,8 @@
                           stroke="currentColor" stroke-width="1.5"></path>
                 </svg>
             </a>
-            <a href="/" class="navbar-brand d-flex align-items-center" style="font-weight: bold">
-                <strong style="color: white; margin-left: 50px;">CASHYONG</strong>
+            <a href="/" class="navbar-brand d-flex align-items-center" style="font-weight: bold; color: white;">
+                <strong style="margin-left: 10px">CASHYONG</strong>
             </a>
             <button style="color: darkred; background-color: black" class="navbar-toggler" type="button"
                     data-bs-toggle="collapse" data-bs-target="#navbarHeader"
@@ -194,19 +128,19 @@
     {% block content %}
         <link href="/static/css/item_added_button.css" rel="stylesheet">
         <section class="py-5 text-center container"
-                 style="margin-top: 20px; background-image: url('/static/img/benedict_img.jpg'); background-size: cover;">
+                 style="margin-top: 20px; background-size: cover;">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
                     <a href="{% url 'store:store' %}" class="cta" style="text-decoration: none">
                         <span class="hover-underline-animation add-button"
                               style="text-decoration: none; color: white"><strong
-                                style="text-decoration: none; color: white; font-size: 50px">SHOP NOW </strong></span>
+                                style="text-decoration: none; color: white; font-size: 50px">SHOP NOW</strong></span>
                     </a>
                 </div>
             </div>
         </section>
         <section class="py-5 text-center container"
-                 style="margin-top: 20px; background-image: url('/static/img/main_img.jpeg'); background-size: cover;">
+                 style="margin-top: 0px; background-size: cover; margin-bottom: 100px">
             {% for category in categories %}
                 <a href="{% url 'store:category' category.id %}" class="cta" style="text-decoration: none">
                         <span class="hover-underline-animation add-button"
@@ -215,34 +149,35 @@
                 </a>
             {% endfor %}
         </section>
-        <section class="py-5 text-center container"
-                 style="margin-top: 20px; background-image: url('/static/img/benedict_image.jpg'); background-size: cover;">
-            <a href="{% url 'store:archive' %}" class="cta" style="text-decoration: none">
-                        <span class="hover-underline-animation add-button"
-                              style="text-decoration: none; color: white;"><strong
-                                style="text-decoration: none; color: white; font-size: 50px">ARCHIVE</strong></span><br>
-            </a>
-        </section>
+        {#        <section class="py-5 text-center container"#}
+        {#                 style="margin-top: 20px;  background-size: cover;">#}
+        {#            <a href="{% url 'store:archive' %}" class="cta" style="text-decoration: none">#}
+        {#                        <span class="hover-underline-animation add-button"#}
+        {#                              style="text-decoration: none; color: white;"><strong#}
+        {#                                style="text-decoration: none; color: black; font-size: 50px">ARCHIVE</strong></span><br>#}
+        {#            </a>#}
     {% endblock %}
 </main>
 
 <footer class=" text-body-secondary py-5">
     <div class="container">
+        <div class="container" style="display: flex; justify-content: center; align-items: center;">
+            <div>
+                <img height="250px" width="350px" src="/static/img/logo_white.png" alt="">
+            </div>
+        </div>
         <p class="float-end mb-1" style="text-align: right">
-            <a style="text-decoration: none; color: darkred" href="/"><strong>Homepage</strong></a><br><br>
-            <a style="text-decoration: none; color: darkred" href="#"><strong>Back to top</strong></a><br>
+            <a style="text-decoration: none; color: darkred" href="/"><strong style="font-size: 20px">Homepage</strong></a><br><br>
+            <a style="text-decoration: none; color: darkred" href="#"><strong style="font-size: 20px">Back to top</strong></a><br>
             <a style="text-decoration: none; color: darkred"
-               href="{% url 'core:support' %}"><strong>Support</strong></a><br>
+               href="{% url 'core:support' %}"><strong style="font-size: 20px">Support</strong></a><br>
             <a style="text-decoration: none; color: darkred"
-               href="{% url 'api:swagger_docs' %}"><strong>API</strong></a>
+               href="{% url 'api:swagger_docs' %}"><strong style="font-size: 20px">API</strong></a>
         </p>
-        <p style="font-size: 0.8em" class="mb-1"><strong>© 2023</strong></p>
-        <p class="mb-0" style="font-weight: bold;"><strong>cashyong</strong></p>
+        <p style="font-size: 0.8em; color: black" class="mb-1"><strong style="font-size: 20px; color: white">© 2023</strong></p>
+        <p class="mb-0" style="font-weight: bold; color: white"><strong style="font-size: 20px">cashyong</strong></p>
         <div style="margin-top: 15px"
              class="paypal-button-row  paypal-button-number-0 paypal-button-layout-vertical paypal-button-shape-rect paypal-button-number-multiple paypal-button-env-sandbox paypal-button-color-gold paypal-button-text-color-black paypal-logo-color-blue   ">
-            <div style="position: absolute; margin-top: 50px">
-                <img height="50px" width="50px" src="/static/img/posta.png" alt="">
-            </div>
             <div role="link" data-button="" data-funding-source="paypal"
                  class="paypal-button  paypal-button-number-0 paypal-button-layout-vertical paypal-button-shape-rect paypal-button-number-multiple paypal-button-env-sandbox paypal-button-color-gold paypal-button-text-color-black paypal-logo-color-blue "
                  tabindex="0" aria-label="PayPal">

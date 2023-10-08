@@ -5,26 +5,12 @@
     <link href="/static/css/font.css" rel="stylesheet">
     <link href="/static/css/item_added_button.css" rel="stylesheet">
     <link href="/static/css/form.css" rel="stylesheet">
-
     <style>
         .form-group input:focus {
             border-color: darkred;
             outline: none;
         }
-
-        {#@media (max-width: 767px) {#}
-        {#    .form-group {#}
-        {#        display: flex;#}
-        {#        flex-direction: column;#}
-        {#        align-items: center;#}
-        {#    }#}
-        {##}
-        {#    input[type="text"], input[type="email"], input[type="phone"], select {#}
-        {#        width: 100%;#}
-        {#    }#}
-        {#}#}
     </style>
-
     <div style="text-align: center; margin-top: 85px; margin-bottom: 70px">
         <strong style="font-size: 50px; color: darkred">FORM</strong><br>
         <span style="color: darkred; font-size: 25px">&#8595;</span>
@@ -38,7 +24,7 @@
                         class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
             {% endfor %}
         {% endif %}
-        <form style="margin-top: 40px" method="post" action="{% url 'order' %}">
+        <form style="margin-top: 40px" method="post" action="{% url 'order_worldwide' %}">
             {% csrf_token %}
             {% for field in form %}
                 <div class="form-group">

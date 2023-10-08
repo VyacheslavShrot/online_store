@@ -1,0 +1,35 @@
+@media (max-width: 767px) {
+    ul#navigator {
+        position: static;
+        margin-top: 26px;
+    }
+
+    img.img1, img.img2 {
+        max-height: 420px;
+        height: 420px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1000px) {
+    ul#navigator {
+        position: static;
+        margin-top: 55px;
+    }
+
+    img.img1, img.img2 {
+        max-height: 230px;
+        height: 230px;
+    }
+}
+
+@media (min-width: 1001px) {
+    ul#navigator {
+        position: fixed;
+        margin-top: 100px;
+    }
+
+    img.img1, img.img2 {
+        max-height: 420px;
+        height: 420px;
+    }
+}
